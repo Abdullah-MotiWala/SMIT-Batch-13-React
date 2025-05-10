@@ -1,40 +1,66 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import Counter1 from "./Counter";
-import { Counter2 } from "./Counter";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [payload, setPayload] = useState({ firstName: "", lastName: "" });
+  let firstName = "abc";
+  const [a,setA] = useState()
+  const [b,setB] = useState()
 
+  // const [name, setName] = useState("");
+  // const [lastName, setLastName] = useState("");
+
+  // const onNameChange = (e) => {
+  //   const value = e.target.value;
+  //   console.log("<--name | value-->", value);
+  //   console.log(payload);
+  //   const newObj = { firstName: value, lastName: payload.lastName };
+  //   setPayload(newObj);
+  // };
+
+  // const onLastNameChange = (e) => {
+  //   const value = e.target.value;
+  //   console.log("<--name | value-->", value);
+  //   setPayload({ lastName: value, firstName: payload.firstName });
+  // };
+
+  const onChange = (e, name) => {
+    firstName = "abcde";
+    if (name === "firstName") {
+      setPayload({ firstName: e.target.value, lastName: payload.lastName });
+    }
+    if (name === "lastName") {
+      setPayload({ lastName: e.target.value, firstName: payload.firstName });
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(payload);
+  };
   return (
-    <>
-      <Counter1 />
-      <Counter2 />
-    </>
-    // <>
-    //   <div>
-    //     <a href="https://vite.dev" target="_blank">
-    //       <img src={viteLogo} className="logo" alt="Vite logo" />
-    //     </a>
-    //     <a href="https://react.dev" target="_blank">
-    //       <img src={reactLogo} className="logo react" alt="React logo" />
-    //     </a>
-    //   </div>
-    //   <h1>Vite - React</h1>
-    //   <div className="card">
-    //     <button onClick={() => setCount((count) => count + 1)}>
-    //       count is {count}
-    //     </button>
-    //     <p>
-    //       Edit <code>src/App.jsx</code> and save to test HMR
-    //     </p>
-    //   </div>
-    //   <p className="read-the-docs">
-    //     Click on the Vite and React logos to learn more
-    //   </p>
-    // </>
+    <form>
+      {/* {payload.firstName} */}
+      {/* {firstName} */}
+      <input
+        type="text"
+        name="firstName"
+        onChange={(e) => {
+          onChange(e, "firstName");
+        }}
+      />
+      <input
+        type="text"
+        name="lastName"
+        onChange={(e) => {
+          onChange(e, "lastName");
+        }}
+      />
+      <input type="password" name="password" />
+      <input type="email" name="email" />
+      <input type="phone" name="phone" />
+      <button onClick={onSubmit}>Submit</button>
+    </form>
   );
 }
 
