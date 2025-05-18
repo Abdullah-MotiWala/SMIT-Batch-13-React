@@ -1,9 +1,21 @@
-import { Fragment, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import Test from "./Test";
+import Form from "./form";
 
 function App() {
   const [payload, setPayload] = useState({ firstName: "" });
   const [errors, setErrors] = useState({});
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    console.log("run first time");
+  }, []);
+  let a = "1";
+
+  useEffect(() => {
+    console.log("run on theme change");
+  }, [theme, a]);
 
   // const [name, setName] = useState("");
   // const [lastName, setLastName] = useState("");
@@ -42,6 +54,7 @@ function App() {
     // }
     const inputName = e.target.name;
     const inputValue = e.target.value;
+    // setPayload({ ...payload, [inputName]: inputValue });
     setPayload({ ...payload, [inputName]: inputValue });
   };
 
@@ -105,38 +118,93 @@ function App() {
   // const classStatus = students > 50 ? "Continue" : "Closed"
 
   // console.log(classStatus);
+
+  function onThemeChange(e) {
+    const themeValue = e.target.value;
+    setTheme(themeValue);
+    // a = "5"
+    console.log(e.target.value);
+    // alert("Hello");
+  }
+
+  // on update
+  // useEffect(() => {
+  //   // alert("Theme changed");
+  //   console.log("Theme change (on update)");
+  // }, [theme, payload]);
+
+  // componentDidMount(()=>{})
+  // componentDidUpdate(()=>{
+  //   if(prev === current ){}
+  // })
+  // componentWillUnmount(()=>{})
+  const user = { name: "Abdullah", surname: "Motiwala", age: 22 };
+  const user2 = { name: "Fareed", surname: "Khan", age: 17 };
   return (
     <>
-      <form>
-        <input
-          type="text"
-          className={errors.firstName && "error"}
-          name="firstName"
-          onChange={onChange}
-        />
-        {errors.firstName && (
-          <p className="error-message">{errors.firstName}</p>
+      {/* <div className={theme === "light" ? "light-theme" : "dark-theme"}>
+        <div>
+          Light:{" "}
+          <input
+            type="radio"
+            name="theme"
+            value={"light"}
+            onChange={onThemeChange}
+          />
+          Dark:{" "}
+          <input
+            type="radio"
+            name="theme"
+            value={"dark"}
+            onChange={onThemeChange}
+          />
+        </div>
+        {theme === "light" && (
+          <Test
+            user={user}
+            abasit={
+              () => {
+              alert("Clicked");
+            }}
+          />
         )}
-        <input
-          className={errors.lastName && "error"}
-          type="text"
-          name="lastName"
-          onChange={onChange}
-        />
-        {errors.lastName && <p className="error-message">{errors.lastName}</p>}
-        <input
-          type="password"
-          name="password"
-          onChange={onChange}
-          // onChange={(e) => {
-          //   onChange(e, "password");
-          // }}
-        />
-        <input type="email" name="email" onChange={onChange} />
-        <input type="phone" name="phone" onChange={onChange} />
-        <input type="number" name="age" onChange={onChange} />
-        <button onClick={onSubmit}>Submit</button>
-      </form>
+        {theme === "light" && (
+          <Test user={{ name: "Ahsan", surname: "majid", age: 25 }} />
+        )}
+        <form>
+          <input
+            type="text"
+            className={errors.firstName && "error"}
+            name="firstName"
+            onChange={onChange}
+          />
+          {errors.firstName && (
+            <p className="error-message">{errors.firstName}</p>
+          )}
+          <input
+            className={errors.lastName && "error"}
+            type="text"
+            name="lastName"
+            onChange={onChange}
+          />
+          {errors.lastName && (
+            <p className="error-message">{errors.lastName}</p>
+          )}
+          <input
+            type="password"
+            name="password"
+            onChange={onChange}
+            // onChange={(e) => {
+            //   onChange(e, "password");
+            // }}
+          />
+          <input type="email" name="email" onChange={onChange} />
+          <input type="phone" name="phone" onChange={onChange} />
+          <input type="number" name="age" onChange={onChange} />
+          <button onClick={onSubmit}>Submit</button>
+        </form>
+      </div> */}
+      <Form />
     </>
   );
 }

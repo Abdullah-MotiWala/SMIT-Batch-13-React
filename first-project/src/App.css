@@ -22,3 +22,15 @@ form input {
   font-size: 6px;
   color: red;
 }
+
+.dark-theme {
+  background-color: gray;
+  color: white;
+  height: 100vh;
+}
+
+.light-theme {
+  background-color: white;
+  color: black;
+  height: 100vh;
+}
