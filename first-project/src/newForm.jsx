@@ -14,9 +14,7 @@ const reducer = (state, action) => {
   }
 };
 
-
-
-const Form = () => {
+const NewForm = () => {
   //   const [cnicValue, setCnicValue] = useState("");
   //   const [counter, setCounter] = useState(0);
 
@@ -60,6 +58,7 @@ const Form = () => {
 
   return (
     <div>
+      <h1>New Form</h1>
       <input
         type="text"
         placeholder="cnic"
@@ -82,4 +81,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default NewForm;

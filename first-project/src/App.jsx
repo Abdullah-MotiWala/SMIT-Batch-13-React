@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Test from "./Test";
 import Form from "./form";
+import { Route, Routes, Link, useNavigate } from "react-router";
+import Home from "./home";
+import FourOhFour from "./fourOhFour";
+import NewForm from "./newForm";
+import User from "./user";
 
 function App() {
+  const navigate = useNavigate();
   const [payload, setPayload] = useState({ firstName: "" });
   const [errors, setErrors] = useState({});
   const [theme, setTheme] = useState("light");
@@ -140,6 +146,22 @@ function App() {
   // componentWillUnmount(()=>{})
   const user = { name: "Abdullah", surname: "Motiwala", age: 22 };
   const user2 = { name: "Fareed", surname: "Khan", age: 17 };
+
+  const onButtonClick = () => {
+    navigate("form");
+  };
+
+  function askAge() {
+    const value = prompt("Enter your age");
+    if (value > 18) {
+      navigate("form");
+    }
+  }
+
+  // useEffect(() => {
+  //   askAge();
+  // }, []);
+
   return (
     <>
       {/* <div className={theme === "light" ? "light-theme" : "dark-theme"}>
@@ -204,7 +226,18 @@ function App() {
           <button onClick={onSubmit}>Submit</button>
         </form>
       </div> */}
-      <Form />
+      {/* <Form /> */}
+      <nav>Home</nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="form">
+          <Route index={true} element={<Form />} />
+          <Route path="def" element={<Form />} />
+          <Route path="abc" element={<NewForm />} />
+        </Route>
+        <Route path="user/:id" element={<User />} />
+        <Route path="*" element={<FourOhFour />} />
+      </Routes>
     </>
   );
 }
