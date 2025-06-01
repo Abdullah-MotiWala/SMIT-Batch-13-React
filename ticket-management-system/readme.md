@@ -1,5 +1,5 @@
 SCOPE OF WORK (SOW)
-- Admin Registration (save)
+- Admin Auth (save) | COMPLETED
 
 - Organization Creation (update and delete)
 - Add Users in organization
