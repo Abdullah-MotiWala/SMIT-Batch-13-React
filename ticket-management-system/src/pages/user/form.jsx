@@ -1,20 +1,24 @@
-import { Form, Input, Button, Row, Col } from "antd";
-import "./signup.css";
+import { Form, Input, Button, Row, Col, Select } from "antd";
+import "./user.css";
 import { PAKISTAN_CNIC_PATTERN, PASSWORD_PATTERN } from "../../lib/regex";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { DB_Collections, USER_Roles } from "../../lib/constants";
+import { useEffect, useState } from "react";
 
-const Signup = () => {
+const UserForm = () => {
+  let [search, setSearch] = useSearchParams();
+
+  console.log(search.get("id"), search.get("view"), "===search");
   const navigate = useNavigate();
+  const [organizations, setOrganizations] = useState();
 
   const saveUserDetails = async (userDetails, userId) => {
     const userDetailsPayload = { userId, ...userDetails };
     const collectionRef = collection(db, DB_Collections.USERS);
-    console.log(collectionRef);
     await addDoc(collectionRef, userDetailsPayload);
   };
 
@@ -30,7 +34,7 @@ const Signup = () => {
   const getUserConfirmation = async () => {
     const result = await Swal.fire({
       title: "Confirmation",
-      text: "Are You Sure, You want to sign up",
+      text: "Are You Sure, You want to add user",
       showCancelButton: true,
       confirmButtonText: "Sure",
     });
@@ -44,24 +48,48 @@ const Signup = () => {
       const isUserConfirmed = await getUserConfirmation();
       if (isUserConfirmed) {
         const userId = await saveUserAndGetId(email, password);
+        const createdBy = localStorage.getItem("userId");
         await saveUserDetails(
-          { ...userDetails, role: USER_Roles.ADMIN },
+          { ...userDetails, createdBy, role: USER_Roles.EMPLOYEE },
           userId
         );
-        navigate("/dashboard");
+        navigate("/user");
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  const fetchOrganizationData = async () => {
+    const userId = localStorage.getItem("userId");
+    const parsedData = [];
+
+    const collectionRef = collection(db, DB_Collections.ORGANIZATIONS);
+    const customQuery = where("userId", "==", userId);
+    const qRef = query(collectionRef, customQuery);
+    const querySnapshot = await getDocs(qRef);
+    querySnapshot.forEach((doc) => {
+      const { name: label } = doc.data();
+      const value = doc.id;
+      const data = { label, value };
+      parsedData.push(data);
+    });
+    setOrganizations(parsedData);
+  };
+
+  useEffect(() => {
+    fetchOrganizationData();
+  }, []);
   return (
     <div className="wrapper">
       <Form
-        className="signup-form"
+        className="user-form"
         onFinish={onFinish}
         validateMessages={{ required: "Please fill this '${name}'" }}
+        // disabled
         labelCol={{ span: 4 }}
         labelAlign="left"
+        // initialValues={{ fullName: "abc" }}
         // labelWrap={true}
         // layout="vertical"
 
@@ -184,9 +212,23 @@ const Signup = () => {
               <Input.Password />
             </Form.Item>
           </Col>
+          <Col md={12} sm={24}>
+            <Form.Item
+              label="Organization"
+              name={"organizationId"}
+              rules={[
+                {
+                  required: true,
+                  message: "Organization is required",
+                },
+              ]}
+            >
+              <Select showSearch options={organizations} />
+            </Form.Item>
+          </Col>
           <Col md={12} sm={24} offset={12}>
             <Form.Item style={{ textAlign: "right" }}>
-              <Button type="primary" htmlType="submit" ali>
+              <Button type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
@@ -197,4 +239,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default UserForm;
