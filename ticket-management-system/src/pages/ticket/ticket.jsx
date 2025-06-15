@@ -1,28 +1,52 @@
-import { Button, Table } from "antd";
+import { Button, Table, Tag } from "antd";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { DB_Collections } from "../../lib/constants";
+import { DB_Collections, TICKET_PRIORITIES } from "../../lib/constants";
 import { db } from "../../lib/firebase";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 
-const Organzation = () => {
-  // const [currentPage, setCurrentPage] = useState(1);
+const Ticket = () => {
   const [dataSource, setDataSource] = useState([]);
   const columns = [
     { title: "Name", dataIndex: "name" },
-    { title: "Contact", dataIndex: "contact" },
     {
-      title: "NTN No.",
-      dataIndex: "ntn",
-      render: (value) => value || "-",
+      title: "Priority",
+      dataIndex: "priority",
+      render: (value) => (
+        <Tag
+          color={
+            value === TICKET_PRIORITIES[0].value
+              ? "error"
+              : value === TICKET_PRIORITIES[1].value
+              ? "warning"
+              : "blue"
+          }
+        >
+          {value}
+        </Tag>
+      ),
     },
     {
-      title: "Location",
-      dataIndex: "location",
-      render: (value, record) => {
-        console.log(value, record);
-        return value.replaceAll(" ", ", ");
+      title: "Status",
+      dataIndex: "status",
+      // render: (value) => value || "-",
+    },
+    {
+      title: "Assigned To",
+      dataIndex: "assignedUser",
+      render: (value) => {
+        return value?.label || "-";
+      },
+    },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      render: (value) => {
+        if (value) {
+          return value.toDate().toLocaleString();
+        }
+        return "-";
       },
     },
     {
@@ -36,17 +60,17 @@ const Organzation = () => {
         return (
           <div>
             <Link to={`edit/${id}`}>
-            <Button type="text">
-              <EditOutlined />
-            </Button>
+              <Button type="text">
+                <EditOutlined />
+              </Button>
             </Link>
             <Button type="text" onClick={onDelete}>
               <DeleteOutlined />
             </Button>
             <Link to={`view/${id}`}>
-            <Button type="text">
-              <EyeOutlined />
-            </Button>
+              <Button type="text">
+                <EyeOutlined />
+              </Button>
             </Link>
           </div>
         );
@@ -56,7 +80,7 @@ const Organzation = () => {
   const fetchData = async () => {
     const userId = localStorage.getItem("userId");
     const parsedData = [];
-    const docRef = collection(db, DB_Collections.ORGANIZATIONS);
+    const docRef = collection(db, DB_Collections.TICKETS);
     const customQuery = where("userId", "==", userId);
     const qRef = query(docRef, customQuery);
     const querySnapshot = await getDocs(qRef);
@@ -73,13 +97,13 @@ const Organzation = () => {
   }, []);
   return (
     <div>
-      <Link to={"form"}>
+      <Link to={"add"}>
         <Button
           style={{ margin: "2px", float: "right" }}
           color="blue"
           variant="solid"
         >
-          Add Organization
+          Add Ticket
         </Button>
       </Link>
       <Table
@@ -99,4 +123,4 @@ const Organzation = () => {
   );
 };
 
-export default Organzation;
+export default Ticket;

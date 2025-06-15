@@ -7,6 +7,10 @@ import Organzation from "./pages/organization/organization";
 import Form from "./pages/organization/form";
 import User from "./pages/user/user";
 import UserForm from "./pages/user/form";
+import Edit from "./pages/organization/edit";
+import View from "./pages/organization/view";
+import Ticket from "./pages/ticket/ticket";
+import AddForm from "./pages/ticket/add";
 
 function App() {
   return (
@@ -17,6 +21,14 @@ function App() {
       <Route path="/organization">
         <Route index element={<Organzation />} />
         <Route path="form" element={<Form />} />
+        <Route path="edit/:id" element={<Edit />} />
+        <Route path="view/:id" element={<View />} />
+      </Route>
+      <Route path="/ticket">
+        <Route index element={<Ticket />} />
+        <Route path="add" element={<AddForm />} />
+        <Route path="edit/:id" element={<Edit />} />
+        <Route path="view/:id" element={<View />} />
       </Route>
       <Route path="/user">
         <Route index element={<User />} />
