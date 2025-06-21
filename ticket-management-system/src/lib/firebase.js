@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
+console.log(import.meta.env.VITE_FIREBASE_API_KEY, "===key");
 const firebaseConfig = {
-  apiKey: "AIzaSyCnfgJfuVNIQyO5u2QqAbqiayhqZkf_CaQ",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "ticketmanagementsystem-86e87.firebaseapp.com",
   projectId: "ticketmanagementsystem-86e87",
   storageBucket: "ticketmanagementsystem-86e87.firebasestorage.app",

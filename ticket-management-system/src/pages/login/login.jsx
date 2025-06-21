@@ -3,18 +3,25 @@ import "./login.css";
 import { useNavigate } from "react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/slices/user";
 
 const Login = () => {
+  const { userId } = useSelector((state) => state.user);
+  console.log(userId, "===userIdInLogin");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async ({ email, password }) => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("userId", res.user.uid);
+      // localStorage.setItem("userId", res.user.uid);
+      dispatch(loginUser(res.user.uid));
       navigate("/dashboard");
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <div className="wrapper">
       <Form

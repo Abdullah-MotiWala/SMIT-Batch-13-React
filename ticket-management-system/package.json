@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
+    "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.25.2",
     "firebase": "^11.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router": "^7.6.0",
     "sweetalert2": "^11.21.2"
   },

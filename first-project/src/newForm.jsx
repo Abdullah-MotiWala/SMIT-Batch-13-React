@@ -31,7 +31,12 @@ const NewForm = () => {
     // else setCnicValue(value);
 
     // setCnicVaue(latestValue);
-    dispatch({ type: "cnic", payload: latestValue });
+    dispatch(updateCNIC("asdhfksdjf"));
+
+    const updateCNIC = (payload) => ({
+      type: "cnic",
+      payload,
+    });
 
     // // cnicValue = value;
     // if (value.length == 5) cnicValue += "-";

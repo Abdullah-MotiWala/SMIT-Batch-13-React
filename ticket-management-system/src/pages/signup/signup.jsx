@@ -7,6 +7,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { DB_Collections, USER_Roles } from "../../lib/constants";
+import { useEffect } from "react";
+import useLoginRedirect from "../../hooks/useLoginRedirect";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ const Signup = () => {
       console.log(err);
     }
   };
+
   return (
     <div className="wrapper">
       <Form

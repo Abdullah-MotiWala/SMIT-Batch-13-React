@@ -11,29 +11,37 @@ import Edit from "./pages/organization/edit";
 import View from "./pages/organization/view";
 import Ticket from "./pages/ticket/ticket";
 import AddForm from "./pages/ticket/add";
+import AuthLayout from "./layout/auth/auth";
+import NonAuthLayout from "./layout/auth/nonAuth";
+import Parent from "./test/parent";
 
 function App() {
   return (
     <Routes>
-      <Route path="/admin/signup" element={<Signup />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/organization">
-        <Route index element={<Organzation />} />
-        <Route path="form" element={<Form />} />
-        <Route path="edit/:id" element={<Edit />} />
-        <Route path="view/:id" element={<View />} />
+      <Route element={<AuthLayout />}>
+        <Route path="/admin/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Route>
-      <Route path="/ticket">
-        <Route index element={<Ticket />} />
-        <Route path="add" element={<AddForm />} />
-        <Route path="edit/:id" element={<Edit />} />
-        <Route path="view/:id" element={<View />} />
+      <Route element={<NonAuthLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/organization">
+          <Route index element={<Organzation />} />
+          <Route path="form" element={<Form />} />
+          <Route path="edit/:id" element={<Edit />} />
+          <Route path="view/:id" element={<View />} />
+        </Route>
+        <Route path="/ticket">
+          <Route index element={<Ticket />} />
+          <Route path="add" element={<AddForm />} />
+          <Route path="edit/:id" element={<Edit />} />
+          <Route path="view/:id" element={<View />} />
+        </Route>
+        <Route path="/user">
+          <Route index element={<User />} />
+          <Route path="form" element={<UserForm />} />
+        </Route>
       </Route>
-      <Route path="/user">
-        <Route index element={<User />} />
-        <Route path="form" element={<UserForm />} />
-      </Route>
+      <Route path="/test" element={<Parent />} />
     </Routes>
   );
 }
