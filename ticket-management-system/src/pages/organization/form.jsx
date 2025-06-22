@@ -4,9 +4,11 @@ import { db } from "../../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { DB_Collections } from "../../lib/constants";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const OrganizationForm = () => {
   const navigate = useNavigate();
+  const { userId } = useSelector((state) => state.user);
 
   const saveOrganizationDetails = async (organizationDetails, userId) => {
     const organizationDetailsPayload = { userId, ...organizationDetails };
@@ -30,7 +32,6 @@ const OrganizationForm = () => {
     try {
       const isUserConfirmed = await getUserConfirmation();
       if (isUserConfirmed) {
-        const userId = localStorage.getItem("userId");
         await saveOrganizationDetails(data, userId);
         navigate("/organization");
       }

@@ -5,8 +5,10 @@ import { Link } from "react-router";
 import { DB_Collections, TICKET_PRIORITIES } from "../../lib/constants";
 import { db } from "../../lib/firebase";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const Ticket = () => {
+  const { userId } = useSelector((state) => state.user);
   const [dataSource, setDataSource] = useState([]);
   const columns = [
     { title: "Name", dataIndex: "name" },
@@ -78,7 +80,6 @@ const Ticket = () => {
     },
   ];
   const fetchData = async () => {
-    const userId = localStorage.getItem("userId");
     const parsedData = [];
     const docRef = collection(db, DB_Collections.TICKETS);
     const customQuery = where("userId", "==", userId);

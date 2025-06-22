@@ -1,8 +1,10 @@
-import React from "react";
+import { memo } from "react";
 import GrandChildrenCom from "./grandChildren";
 
-const ChildrenCom = ({ testState }) => {
+const Children = ({ testState, onChange }) => {
   const envVariable = "machinENVVariable";
+  console.log("===rerender children");
+  console.log(onChange);
   return (
     <div>
       <GrandChildrenCom testState={testState} />
@@ -10,4 +12,5 @@ const ChildrenCom = ({ testState }) => {
   );
 };
 
+const ChildrenCom = memo(Children);
 export default ChildrenCom;

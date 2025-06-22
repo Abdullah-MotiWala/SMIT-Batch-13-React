@@ -13,8 +13,10 @@ import { DB_Collections } from "../../lib/constants";
 import { db } from "../../lib/firebase";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const User = () => {
+  const { userId } = useSelector((state) => state.user);
   const [dataSource, setDataSource] = useState([]);
   const navigate = useNavigate();
   const columns = [
@@ -62,7 +64,6 @@ const User = () => {
     },
   ];
   const fetchData = async () => {
-    const userId = localStorage.getItem("userId");
     const parsedData = [];
 
     const collectionRef = collection(db, DB_Collections.USERS);
