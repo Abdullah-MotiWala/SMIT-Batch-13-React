@@ -2,6 +2,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./slices/user";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+// const state = { userId: null }; //agr reducer bnaer only userReducre
+// const state = { user: { userId: null }, ticker: { userId: null } };
 
 const rootReducer = combineReducers({
   user: userReducer,
