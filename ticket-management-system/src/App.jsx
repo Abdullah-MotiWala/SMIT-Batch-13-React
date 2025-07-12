@@ -9,11 +9,14 @@ import User from "./pages/user/user";
 import UserForm from "./pages/user/form";
 import Edit from "./pages/organization/edit";
 import View from "./pages/organization/view";
-import Ticket from "./pages/ticket/ticket";
+// import Ticket from "./pages/ticket/ticket";
 import AddForm from "./pages/ticket/add";
 import AuthLayout from "./layout/auth/auth";
 import NonAuthLayout from "./layout/auth/nonAuth";
 import Parent from "./test/parent";
+import { lazy } from "react";
+
+const Ticket = lazy(() => import("./pages/ticket/ticket"));
 
 function App() {
   return (

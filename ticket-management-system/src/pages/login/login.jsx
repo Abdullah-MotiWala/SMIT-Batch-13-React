@@ -13,7 +13,6 @@ import { DB_Collections } from "../../lib/constants";
 const Login = () => {
   const { userId } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(userId, "===userIdInLogin");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async ({ email, password }) => {
@@ -22,16 +21,26 @@ const Login = () => {
       const res = await signInWithEmailAndPassword(auth, email, password);
       const docRef = doc(db, DB_Collections.USERS, res.user.uid);
       const docSnapShot = await getDoc(docRef);
-      console.log(docSnapShot, docSnapShot.data());
-      dispatch(loginUser(res.user.uid));
+      const data = docSnapShot.data();
+      console.log(docSnapShot.data(), "===data");
+      dispatch(loginUser({ id: res.user.uid, role: data?.role || "N/A" }));
       navigate("/dashboard");
     } catch (err) {
       console.log(err);
     }
   };
 
+  const values = [1, 2, 3, 4];
+
   return (
     <div className="wrapper">
+      {/* {values.map((v) => {
+        return <div key={v}>{v}</div>;
+      })} */}
+      {/* <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div> */}
       <Form
         className="login-form"
         onFinish={onFinish}

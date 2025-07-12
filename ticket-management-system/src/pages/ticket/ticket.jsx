@@ -2,13 +2,17 @@ import { Button, Table, Tag } from "antd";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { DB_Collections, TICKET_PRIORITIES } from "../../lib/constants";
+import {
+  DB_Collections,
+  TICKET_PRIORITIES,
+  USER_Roles,
+} from "../../lib/constants";
 import { db } from "../../lib/firebase";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 
 const Ticket = () => {
-  const { userId } = useSelector((state) => state.user);
+  const { userId, role } = useSelector((state) => state.user);
   const [dataSource, setDataSource] = useState([]);
   const columns = [
     { title: "Name", dataIndex: "name" },
@@ -82,7 +86,18 @@ const Ticket = () => {
   const fetchData = async () => {
     const parsedData = [];
     const docRef = collection(db, DB_Collections.TICKETS);
-    const customQuery = where("userId", "==", userId);
+    // let customQuery = null;
+
+    // if (role === USER_Roles.EMPLOYEE) {
+    //   customQuery = where("assignedTo", "==", userId);
+    // } else {
+    //   customQuery = where("userId", "==", userId);
+    // }
+
+    const isEmployee = role === USER_Roles.EMPLOYEE;
+    const queryKey = isEmployee ? "assignedTo" : "userId";
+    let customQuery = where(queryKey, "==", userId);
+
     const qRef = query(docRef, customQuery);
     const querySnapshot = await getDocs(qRef);
     querySnapshot.forEach((doc) => {

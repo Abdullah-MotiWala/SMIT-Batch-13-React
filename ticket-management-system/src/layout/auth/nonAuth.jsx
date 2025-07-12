@@ -3,6 +3,7 @@ import useNonLoginRedirect from "../../hooks/useNonLoginRedirect";
 import { Button } from "antd";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/slices/user";
+import CustomSidebar from "../../components/customSidebar";
 
 const NonAuthLayout = () => {
   const navigate = useNavigate();
@@ -14,9 +15,11 @@ const NonAuthLayout = () => {
   };
   return (
     <div>
-      <Button onClick={onLogoutClick}>Logout</Button>
-      <Outlet />
-      <p>footer</p>
+      {/* <Button onClick={onLogoutClick}>Logout</Button> */}
+      <CustomSidebar>
+        <Outlet />
+      </CustomSidebar>
+      {/* <p>footer</p> */}
     </div>
   );
 };

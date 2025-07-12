@@ -5,7 +5,15 @@ import Swal from "sweetalert2";
 import { useNavigate, useSearchParams } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { DB_Collections, USER_Roles } from "../../lib/constants";
 import { useEffect, useState } from "react";
 
@@ -18,8 +26,8 @@ const UserForm = () => {
 
   const saveUserDetails = async (userDetails, userId) => {
     const userDetailsPayload = { userId, ...userDetails };
-    const collectionRef = collection(db, DB_Collections.USERS);
-    await addDoc(collectionRef, userDetailsPayload);
+    const docRef = doc(db, DB_Collections.USERS, userId);
+    await setDoc(docRef, userDetailsPayload);
   };
 
   const saveUserAndGetId = async (email, password) => {
@@ -212,7 +220,7 @@ const UserForm = () => {
               <Input.Password />
             </Form.Item>
           </Col>
-          <Col md={12} sm={24}>
+          {/* <Col md={12} sm={24}>
             <Form.Item
               label="Organization"
               name={"organizationId"}
@@ -225,7 +233,7 @@ const UserForm = () => {
             >
               <Select showSearch options={organizations} />
             </Form.Item>
-          </Col>
+          </Col> */}
           <Col md={12} sm={24} offset={12}>
             <Form.Item style={{ textAlign: "right" }}>
               <Button type="primary" htmlType="submit">
